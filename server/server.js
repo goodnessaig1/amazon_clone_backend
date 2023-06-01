@@ -2,6 +2,7 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const connectDB = require('./models/db');
 require('dotenv').config();
+const userRoute = require('./routes/userRoutes');
 
 connectDB();
 
@@ -31,6 +32,8 @@ app.use((req, res, next) => {
 });
 
 app.use(cors());
+
+app.use('/api/users', userRoute);
 
 const port = 3008;
 app.listen(port, () => {
