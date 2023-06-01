@@ -6,27 +6,22 @@ const dataBase = process.env.DATABASE;
 
 const connectDB = async () => {
   try {
+    let dbURI;
+
     if (process.env.NODE_ENV === 'production') {
-      mongoose
-        .connect(mongoURI)
-        .then(() => {
-          console.log('Connected to local MongoDB');
-        })
-        .catch((error) => {
-          console.error('Error connecting to local MongoDB:', error);
-        });
+      dbURI = dataBase;
     } else {
-      mongoose
-        .connect(dataBase)
-        .then(() => {
-          console.log('Connected to MongoDB Cloud');
-        })
-        .catch((error) => {
-          console.error('Error connecting to MongoDB Cloud:', error);
-        });
+      dbURI = mongoURI;
     }
+
+    await mongoose.connect(dbURI, {
+      useNewUrlParser: true,
+      useUnifiedTopology: true,
+    });
+
+    console.log('Connected to the database');
   } catch (error) {
-    console.error('Error connecting to the database:', error);
+    console.error('Error connecting to the database:', error.message);
   }
 };
 
