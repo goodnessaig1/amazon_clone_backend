@@ -3,6 +3,7 @@ const bodyParser = require('body-parser');
 const connectDB = require('./models/db');
 require('dotenv').config();
 const userRoute = require('./routes/userRoutes');
+const categoryRoute = require('./routes/categoryRoutes');
 
 connectDB();
 
@@ -34,6 +35,7 @@ app.use((req, res, next) => {
 app.use(cors());
 
 app.use('/api/users', userRoute);
+app.use('/api/categories', categoryRoute);
 
 const port = 3008;
 app.listen(port, () => {

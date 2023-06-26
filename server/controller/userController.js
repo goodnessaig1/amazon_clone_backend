@@ -49,6 +49,7 @@ class UserController {
       }
       const token = createToken({
         mobileOrEmail: user.mobileOrEmail,
+        isAdmin: user.isAdmin,
       });
       return res.json({
         status: 'success',
@@ -69,6 +70,7 @@ class UserController {
   static async userAuth(req, res) {
     try {
       const { mobileOrEmail } = req.user;
+      console.log(req.user.isAdmin);
       const user = await User.findOne({ mobileOrEmail });
       if (!user) {
         return res
@@ -79,6 +81,23 @@ class UserController {
     } catch (err) {
       console.error(err);
       res.status(500).json({ message: 'Internal server error' });
+    }
+  }
+
+  static async makeAdmin(req, res) {
+    try {
+      const { mobileOrEmail } = req.user;
+      const user = await User.findOne({ mobileOrEmail });
+      if (!user) {
+        return res.status(404).json({ error: 'User not found' });
+      }
+      user.isAdmin = true;
+      await user.save();
+
+      res.json({ message: 'Admin created successfully', user });
+    } catch (error) {
+      console.error(error);
+      res.status(500).json({ error: 'Internal server error' });
     }
   }
 }
