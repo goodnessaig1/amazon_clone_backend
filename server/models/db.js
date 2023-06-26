@@ -10,7 +10,10 @@ const connectDB = async () => {
 
     if (process.env.NODE_ENV === 'production') {
       dbURI = dataBase;
+
+      // dbURI = mongoURI;
     } else {
+      // dbURI = dataBase;
       dbURI = mongoURI;
     }
 

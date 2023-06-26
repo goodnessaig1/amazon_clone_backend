@@ -1,6 +1,7 @@
 const mongoose = require('mongoose');
+// const Schema = mongoose.Schema;
 require('dotenv').config();
-
+const { Schema } = mongoose;
 const userSchema = mongoose.Schema({
   firstLastName: {
     type: String,
@@ -25,10 +26,11 @@ const userSchema = mongoose.Schema({
     type: Array,
     default: [],
   },
-  history: {
+  viewedProduct: {
     type: Array,
     default: [],
   },
+  history: [],
   isAdmin: {
     type: Boolean,
     default: false,
