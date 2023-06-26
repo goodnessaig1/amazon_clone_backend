@@ -4,6 +4,7 @@ const connectDB = require('./models/db');
 require('dotenv').config();
 const userRoute = require('./routes/userRoutes');
 const categoryRoute = require('./routes/categoryRoutes');
+const brandRoute = require('./routes/brandRoutes');
 
 connectDB();
 
@@ -36,6 +37,7 @@ app.use(cors());
 
 app.use('/api/users', userRoute);
 app.use('/api/categories', categoryRoute);
+app.use('/api/brands', brandRoute);
 
 const port = 3008;
 app.listen(port, () => {
