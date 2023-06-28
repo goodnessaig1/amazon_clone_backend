@@ -38,8 +38,8 @@ class UserController {
       const user = await User.findOne({ mobileOrEmail });
       if (!user) {
         return res
-          .status(404)
-          .json({ status: 'Failed', message: 'User not found' });
+          .json({ status: 'Failed', message: 'password or email incorrect' })
+          .status(401);
       }
       const isPasswordMatch = await bcrypt.compare(password, user.password);
       if (!isPasswordMatch) {
@@ -49,7 +49,8 @@ class UserController {
       }
       const token = createToken({
         mobileOrEmail: user.mobileOrEmail,
-        isAdmin: user.isAdmin,
+        _id: user._id,
+        isAdmin: user?.isAdmin,
       });
       return res.json({
         status: 'success',
@@ -70,7 +71,6 @@ class UserController {
   static async userAuth(req, res) {
     try {
       const { mobileOrEmail } = req.user;
-      console.log(req.user.isAdmin);
       const user = await User.findOne({ mobileOrEmail });
       if (!user) {
         return res
