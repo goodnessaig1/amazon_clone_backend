@@ -5,6 +5,7 @@ require('dotenv').config();
 const userRoute = require('./routes/userRoutes');
 const categoryRoute = require('./routes/categoryRoutes');
 const brandRoute = require('./routes/brandRoutes');
+const productRoute = require('./routes/productRoutes');
 
 connectDB();
 
@@ -38,6 +39,7 @@ app.use(cors());
 app.use('/api/users', userRoute);
 app.use('/api/categories', categoryRoute);
 app.use('/api/brands', brandRoute);
+app.use('/api/products', productRoute);
 
 const port = 3008;
 app.listen(port, () => {
