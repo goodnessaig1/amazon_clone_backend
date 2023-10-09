@@ -78,6 +78,23 @@ class ProductController {
       res.status(500).json({ error: 'An error occurred' });
     }
   }
+
+  static async getSingleProduct(req, res) {
+    try {
+      const productId = req.params.productId;
+      const product = await Product.findById({ _id: productId })
+        .populate('brand')
+        .populate('category');
+      const brand = product?.brand;
+      const category = product?.category;
+      const brandDetails = await Brands.findById(brand);
+      const categoryDetails = await Category.findById(category);
+      res.json({ product, brandDetails, categoryDetails });
+    } catch (error) {
+      console.error(error);
+      res.status(500).json({ error: 'Internal server error' });
+    }
+  }
 }
 
 module.exports = ProductController;
