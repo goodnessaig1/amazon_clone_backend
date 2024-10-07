@@ -95,6 +95,27 @@ class ProductController {
       res.status(500).json({ error: 'Internal server error' });
     }
   }
+
+  static async SearchProducts(req, res) {
+    try {
+      const { name } = req.query;
+
+      if (name !== '') {
+        const regex = new RegExp(name, 'i');
+        const products = await Product.find({ name: regex })
+          .populate('category')
+          .populate('brand');
+        res.json(products);
+      } else {
+        res.json([]);
+      }
+    } catch (error) {
+      console.error('An error occurred while searching for products:', error);
+      res
+        .status(500)
+        .json({ error: 'An error occurred while searching for products.' });
+    }
+  }
 }
 
 module.exports = ProductController;
